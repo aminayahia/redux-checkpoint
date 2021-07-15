@@ -1,48 +1,26 @@
 import React from 'react'
-import { Button,Modal,Form } from 'react-bootstrap'
+import { Button,Form } from 'react-bootstrap'
+import {  useDispatch } from 'react-redux';
 import { useState } from 'react';
 
-const Addtask = () => {
-    const [show, setShow] = useState(false);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-  
+const Addtask = (props) => {
+  console.log(props)
+const dispatch = useDispatch();
     return (
         <div>
-           <Button variant="outline-primary" onClick={handleShow}>Add Task</Button>
-      
-      <Modal show={show} onHide={handleClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-        <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>id</Form.Label>
-            <Form.Control type="text" placeholder="id" />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>description</Form.Label>
-            <Form.Control type="txt" placeholder="description" />
-          </Form.Group>
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="isDone" />
-          </Form.Group>
+            <Form>
+     
+            <Form.Group className="mb-3" controlId="description">
+              <Form.Control type="txt" placeholder="description"  onChange={(e)=>props.setTask({description: e.target.value})}/>
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="formBasicCheckbox">
+              <Form.Check type="checkbox" label="isDone" onChange={(e)=>props.setTask({isDone: e.target.value})}/>
+            </Form.Group> 
+            <Button variant="primary" onClick={()=> dispatch({type:"ADD",description:props.description,isDone:props.isDone})} > 
+              ADD
+            </Button>
+          </Form>
           
-        </Form>
-
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal> 
         </div>
     )
 }
